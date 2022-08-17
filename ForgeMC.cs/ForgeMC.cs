@@ -53,7 +53,7 @@ namespace WindowsGSM.Plugins
         private string ForgePromotionsJson = "/net/minecraftforge/forge/promotions_slim.json"; // Path to promotions json in forge (contains mapping of minecraft version to forge build)
         private string ServerProperties = "server.properties"; // Filename for Minecraft server properties
         private string Eula = "eula.txt";
-        private string PaperVersionApi = "https://papermc.io/api/v1/paper"; // Paper minecraft versions API
+        private string PaperVersionApi = "https://api.papermc.io/v2/projects/paper"; // Paper minecraft versions API
 
         // - Constants
         private const string ERROR_JAVA_NOT_INSTALLED = "Java is not installed";
@@ -79,7 +79,7 @@ namespace WindowsGSM.Plugins
                     WindowStyle = ProcessWindowStyle.Minimized,
                     UseShellExecute = false
                 },
-                EnableRaisingEvents = true
+                EnableRaisingEvents = false
             };
         }
 
@@ -125,6 +125,7 @@ namespace WindowsGSM.Plugins
         {
             // Try getting the latest remote build
             var build = await GetRemoteBuild();
+
             if (string.IsNullOrWhiteSpace(build)) { return string.Empty; }
 
             // Download the latest forge installer to /serverfiles
@@ -379,14 +380,14 @@ namespace WindowsGSM.Plugins
                     // which is not equal to latest version of MC Forge supports
                     var version = JObject.Parse(
                         await webClient.DownloadStringTaskAsync(PaperVersionApi)
-                    )["versions"][0].ToString();
+                    )["versions"].Last.ToString();
                     
                     // @todo(dw): need to allow choice between 'latest' stream and 'recommended' stream
                     var build = JObject.Parse(
                         await webClient.DownloadStringTaskAsync($"{ForgeHost}{ForgePromotionsJson}")
                     )["promos"][$"{version}-{ForgeBuildStream}"].ToString();
-
                     return $"{version}-{build}";
+
                 }
             }
             catch (Exception e)
