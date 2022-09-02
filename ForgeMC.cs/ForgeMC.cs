@@ -17,7 +17,7 @@ namespace WindowsGSM.Plugins
         public Plugin Plugin = new Plugin
         {
             name = "WindowsGSM.ForgeMC",
-            author = "dwhitacre",
+            author = "dwhitacre and Ada",
             description = "🧩 WindowsGSM plugin for supporting Minecraft: Forge Server",
             version = "1.0.0",
             url = "https://github.com/dwhitacre/WindowsGSM.ForgeMC",
@@ -83,19 +83,33 @@ namespace WindowsGSM.Plugins
             };
         }
 
+        private Process GetBatProc(string args) {
+            return new Process
+            {
+                StartInfo =
+                {
+                    WorkingDirectory = ServerPath.GetServersServerFiles(_serverData.ServerID),
+                    FileName = args,
+                    Arguments = "nogui",
+                    UseShellExecute = false
+                },
+                EnableRaisingEvents = false
+            };
+        }
         // - Has a local forge jar file
         private bool HasForgeFile(string dirName)
         {
             return !string.IsNullOrWhiteSpace(GetForgeFile(dirName));
-        } 
+        }
 
         // - Find the local forge jar filename
         private string GetForgeFile(string dirName)
         {
             try
             {
+                string fp = GetForgeFilePath();
                 // @todo(dw): handle multiple forge jars, currently we just return the first one we find
-                var jarFiles = Directory.EnumerateFiles(dirName, ForgeFormat);
+                var jarFiles = Directory.EnumerateFiles(dirName+@"\"+fp, ForgeFormat);
                 foreach (string currentFile in jarFiles)
                 {
                     string fileName = Path.GetFileName(currentFile);
@@ -111,6 +125,24 @@ namespace WindowsGSM.Plugins
                 Error = e.Message;
                 return string.Empty;
             }
+        }
+        private string GetForgeFilePath() {
+            Regex rx = new Regex(@"java @user_jvm_args.txt @(.*?)win_args.txt", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            try
+            {
+                foreach (string line in File.ReadLines(ServerPath.GetServersServerFiles(_serverData.ServerID, "run.bat")))
+                {
+                    MatchCollection matches = rx.Matches(line);
+                    foreach (Match match in matches)
+                    {   
+                        return match.Groups[1].ToString();
+                    }
+                }
+            }
+            catch(Exception e){
+                Error = e.ToString();
+            }
+            return String.Empty;
         }
 
         // - Get the local installer filename
@@ -200,10 +232,9 @@ namespace WindowsGSM.Plugins
             }
 
             // Prepare process
-            var jarFile = GetForgeFile(ServerPath.GetServersServerFiles(_serverData.ServerID));
-            var param = new StringBuilder($"{_serverData.ServerParam} -jar {jarFile} nogui");
-            var p = GetJavaProcess(param.ToString());
-
+            //var param = new StringBuilder($"user_jvm_args.txt {GetForgeFilePath()}win_args.txt nogui");
+            //var p = GetJavaProcess(param.ToString());
+            var p = GetBatProc(ServerPath.GetServersServerFiles(_serverData.ServerID)+@"\run.bat");
             // Set up Redirect Input and Output to WindowsGSM Console if EmbedConsole is on
             if (AllowsEmbedConsole)
             {
@@ -212,6 +243,7 @@ namespace WindowsGSM.Plugins
                 p.StartInfo.RedirectStandardOutput = true;
                 p.StartInfo.RedirectStandardError = true;
                 var serverConsole = new ServerConsole(_serverData.ServerID);
+                
                 p.OutputDataReceived += serverConsole.AddOutput;
                 p.ErrorDataReceived += serverConsole.AddOutput;
 
@@ -289,7 +321,7 @@ namespace WindowsGSM.Plugins
             File.WriteAllText(eulaFile, EULA_TEXT);
 
             // Run installer
-            await RunInstaller();
+            var task = await RunInstaller();
             return null;
         }
 
@@ -345,6 +377,7 @@ namespace WindowsGSM.Plugins
         }
 
         // - Get Local server version and build
+    
         public string GetLocalBuild()
         {
             var jarFile = GetForgeFile(ServerPath.GetServersServerFiles(_serverData.ServerID));
@@ -360,6 +393,7 @@ namespace WindowsGSM.Plugins
 
             return $"{version}-{build}";
         }
+        
 
         // - Get Latest server version and build
         public async Task<string> GetRemoteBuild()
