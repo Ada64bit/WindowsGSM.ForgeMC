@@ -7,7 +7,7 @@
 [WindowsGSM](https://github.com/WindowsGSM/WindowsGSM) >= 1.21.0
 
 ## Installation
-1. Download the [latest](https://github.com/dwhitacre/WindowsGSM.ForgeMC/releases/latest) release
+1. Download the Plugin via the green Download Code Button or use [latest](https://github.com/ada64bit/WindowsGSM.ForgeMC/releases/latest) release if available
 1. Move the **ForgeMC.cs** folder to **plugins** folder
 1. Click the **[RELOAD PLUGINS]** button or restart WindowsGSM
 
