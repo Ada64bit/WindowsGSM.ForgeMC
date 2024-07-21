@@ -15,7 +15,18 @@ This project, excluding any `**/*.png` files, is licensed under the MIT License 
 
 [ForgeMC.cs/ForgeMC.png](ForgeMC.cs/ForgeMC.png) is licensed by [MinecraftForge](https://github.com/MinecraftForge/MinecraftForge).
 
+### Not having an full IPv4 adress ( named CCNAT or DSL Light )
+Allthough Minecraft can accept ipv6 only connections, all your clients also need an ipv6 adapter. to run MC the "normal" way (for IPv6 only, see below):
+- You need to either buy one (most VPN services provide that option. A pal uses ovpn.net for his server, I know of nordvpn also providing that. Should both cost around 7€ cheaper half of it, if your already having an VPN)
+- Or you pay a bit more for your internet and take a contract with full ipv4. (depending on your country)
+- There are also tunneling methods, which require acces to a server with a full ipv4. Some small VPS can be obtained, not powerfull enough for the servers themself, but only for forwarding. I think there are some for under 5€), the connection is then done via wireguard. but its a bit configuration heavy to setup) 
+
+Or you connect your friends via VPN to your net and play via local lan then.
+Many windowsgsm plugin creators recommend zerotier (should be a free VPN designated for gaming) , see chapter at the end (or tailscale, but no howto there)
+
+
 ## IPv6 only
+If you want, or need to because you don't get an IPv4 from your Provider, you can also start minecraft as IPv6 only server. There are a few steps necesarry for that to work:
 - Disable Privacy Extensions on the host computer
   - open windows powershell and type these commands
     - Set-NetIPv6Protocol -RandomizeIdentifiers Disabled
@@ -35,16 +46,6 @@ In some Cases:
 
 Connecting to an IPv6only Server:
 - My friends connected with [IPv6]:25565 , the ipv6 address has to be written in brackets.
-
-
-### Not having an full IPv4 adress ( named CCNAT or DSL Light )
-Allthough Minecraft can accept ipv6 only connections, all your clients also need an ipv6 adapter. to run MC the "normal" way (for IPv6 only, see above):
-- You need to either buy one (most VPN services provide that option. A pal uses ovpn.net for his server, I know of nordvpn also providing that. Should both cost around 7€ cheaper half of it, if your already having an VPN)
-- Or you pay a bit more for your internet and take a contract with full ipv4. (depending on your country)
-- There are also tunneling methods, which require acces to a server with a full ipv4. Some small VPS can be obtained, not powerfull enough for the servers themself, but only for forwarding. I think there are some for under 5€), the connection is then done via wireguard. but its a bit configuration heavy to setup) 
-
-Or you connect your friends via VPN to your net and play via local lan then.
-Many windowsgsm plugin creators recommend zerotier (should be a free VPN designated for gaming) , see chapter below (or tailscale, but no howto there)
 
 ## How can you play with your friends without port forwarding?
 - Use [zerotier](https://www.zerotier.com/) folow the basic guide and create network
