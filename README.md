@@ -1,7 +1,4 @@
 # WindowsGSM.ForgeMC
-🧩 WindowsGSM plugin for supporting Minecraft: Forge Server
-
-> This project is a derivative work of [WindowsGSM.PaperMC](https://github.com/BattlefieldDuck/WindowsGSM.PaperMC). I am not an expert of WindowsGSM nor its plugins; I have simply ported over files from the PaperMC plugin to enable the management of Forge servers within WindowsGSM. Use at your own risk.
 
 ## Requirements
 [WindowsGSM](https://github.com/WindowsGSM/WindowsGSM) >= 1.21.0
@@ -18,9 +15,30 @@ This project, excluding any `**/*.png` files, is licensed under the MIT License 
 
 [ForgeMC.cs/ForgeMC.png](ForgeMC.cs/ForgeMC.png) is licensed by [MinecraftForge](https://github.com/MinecraftForge/MinecraftForge).
 
+## IPv6 only
+- Disable Privacy Extensions on the host computer
+  - open windows powershell and type these commands
+    - Set-NetIPv6Protocol -RandomizeIdentifiers Disabled
+    - Set-NetIPv6Protocol -UseTemporaryAddresses Disabled
+    - Restart-Computer
+- Edit run.bat (mark the server in WindowsGSM, click on Browse => Server Files, there it should be)
+- Add the following parameters to the Java execution line:
+  - -Djava.net.preferIPV4stack=false
+  - -Djava.net.preferIPv6Addresses=true
+- You still need to confiure your router to allow the connections:
+- Port forwarding/Firewall on the router with port 25565 UDP and TCP(the ones listed in the file server.properties)
+- The firewall on the host-pc also needs to be manually be configured to open Port 25565 TCP and UDP Inbound (normaly WindowsGSM does this, but as StartPath is the the file that executes(java.exe), it could be that it fails to do so)
+In some Cases: 
+- in some cases the creator had to open a specific filter on my router to allow ICMP traffic
+  - In my case (FritzBox 7360) : Internet -> Filter -> List
+- steps are copied from : https://www.reddit.com/r/admincraft/comments/zcab6h/connecting_to_a_minecraft_server_with_ipv6/
+
+Connecting to an IPv6only Server:
+- My friends connected with [IPv6]:25565 , the ipv6 address has to be written in brackets.
+
 
 ### Not having an full IPv4 adress ( named CCNAT or DSL Light )
-No game or gameserver supports ipv6 only connections. 
+Allthough Minecraft can accept ipv6 only connections, all your clients also need an ipv6 adapter. to run MC the "normal" way (for IPv6 only, see above):
 - You need to either buy one (most VPN services provide that option. A pal uses ovpn.net for his server, I know of nordvpn also providing that. Should both cost around 7€ cheaper half of it, if your already having an VPN)
 - Or you pay a bit more for your internet and take a contract with full ipv4. (depending on your country)
 - There are also tunneling methods, which require acces to a server with a full ipv4. Some small VPS can be obtained, not powerfull enough for the servers themself, but only for forwarding. I think there are some for under 5€), the connection is then done via wireguard. but its a bit configuration heavy to setup) 
