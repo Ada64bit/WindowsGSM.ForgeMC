@@ -9,6 +9,8 @@
 1. Click the **[RELOAD PLUGINS]** button or restart WindowsGSM
 
 ## License
+The Project was re-forked from ada64bit, as the project seems inactive with a broken release link from day one. My pullrequest was also unanswered. 
+
 This project, excluding any `**/*.png` files, is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
 [ForgeMC.cs/author.png](ForgeMC.cs/author.png) is created by [@taiyaki_tv](https://twitter.com/taiyaki_tv) and reserved for use by me, dwhitacre.
