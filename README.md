@@ -45,7 +45,9 @@ In some Cases:
 - steps are copied from : https://www.reddit.com/r/admincraft/comments/zcab6h/connecting_to_a_minecraft_server_with_ipv6/
 
 Connecting to an IPv6only Server:
-- My friends connected with [IPv6]:25565 , the ipv6 address has to be written in brackets.
+- your players all need a ipv6 stack enabled, but there is one integrated in windows, you just need to activate it:
+  - https://answers.microsoft.com/en-us/windows/forum/all/enable-teredo-ipv6/62524566-6ee2-4690-bc16-238a2d205e3b
+- connect with [IPv6]:25565 , the ipv6 address has to be written in brackets.
 
 ## How can you play with your friends without port forwarding?
 - Use [zerotier](https://www.zerotier.com/) folow the basic guide and create network
