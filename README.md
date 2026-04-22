@@ -1,13 +1,15 @@
+# No Longer Maintained
+
 # WindowsGSM.ForgeMC
 🧩 WindowsGSM plugin for supporting Minecraft: Forge Server
 
 > This project is a derivative work of [WindowsGSM.PaperMC](https://github.com/BattlefieldDuck/WindowsGSM.PaperMC). I am not an expert of WindowsGSM nor its plugins; I have simply ported over files from the PaperMC plugin to enable the management of Forge servers within WindowsGSM. Use at your own risk.
 
 ## Requirements
-[WindowsGSM](https://github.com/WindowsGSM/WindowsGSM) >= 1.21.0
+GSM >= 1.21.0
 
 ## Installation
-1. Download the [latest](https://github.com/dwhitacre/WindowsGSM.ForgeMC/releases/latest) release
+1. Download the release
 1. Move the **ForgeMC.cs** folder to **plugins** folder
 1. Click the **[RELOAD PLUGINS]** button or restart WindowsGSM
 
